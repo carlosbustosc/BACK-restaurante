@@ -1,4 +1,5 @@
 /*----como es con mogo importamos mongoose--------*/
+//enviar
 const mongoose = require('mongoose');
 
 /*--------creamos la conexion-----*/
