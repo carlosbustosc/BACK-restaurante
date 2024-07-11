@@ -7,8 +7,8 @@ const conexion = async() => {
 
     try{
 
-        //mongoose.connect('mongodb://localhost:27017/restaurante');
-        
+      
+    
         mongoose.connect('mongodb+srv://CABUSTOSC09:Ecoutores09@haltfone.to2o8np.mongodb.net/restaurante?retryWrites=true&w=majority&appName=haltfone');
         console.log("conectado correctamente a MONGO ATLAS");
 
