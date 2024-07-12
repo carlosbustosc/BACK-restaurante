@@ -9,7 +9,9 @@ const modeloFavoritos = require('../modelos/registrarFavoritos')
 const registrarFavoritos = ( req, resp ) => {
 
     const datosFront = req.body;
-  
+    console.log(datosFront)
+
+
    const validarFoto                =  !validator.isEmpty( datosFront.foto );
    const validarNombre              =  !validator.isEmpty( datosFront.nombre );
    const validarCiudad              =  !validator.isEmpty( datosFront.ciudad );
@@ -29,7 +31,14 @@ const registrarFavoritos = ( req, resp ) => {
    }
 
    
-   modeloFavoritos.find()
+   modeloFavoritos.find( 
+    {
+        
+        emailPersona:datosFront.emailPersona,
+        email:datosFront.email
+
+   }
+)
    .then( ( respuestDB ) => {
 
             if(respuestDB && respuestDB.length > 0){
