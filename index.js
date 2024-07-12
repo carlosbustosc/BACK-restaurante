@@ -25,9 +25,12 @@ usarExpress.use( express.urlencoded( { extended:true } ) )
 
 
 //crear servidor local y escuchar peticiones http
+
+/*
 usarExpress.listen(5000, (req, resp) => {
     console.log('servidor corriendo');
 })
+    */
 
 
 

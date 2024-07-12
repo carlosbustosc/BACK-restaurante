@@ -29,11 +29,7 @@ const registrarFavoritos = ( req, resp ) => {
    }
 
    
-   modeloFavoritos.find( {
-        $or:[
-            { email : datosFront.email }
-        ]
-   })
+   modeloFavoritos.find()
    .then( ( respuestDB ) => {
 
             if(respuestDB && respuestDB.length > 0){
