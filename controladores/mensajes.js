@@ -15,10 +15,10 @@ guardarMensajesResturantes = (req, resp) => {
     const datosFront = req.body;
     console.log(datosFront)
 
-    const emailCliente = !validator.isEmpty( datosFront.emailCliente );
-    const emailResturante = !validator.isEmpty( datosFront.emailResturante );
+    const emailCliente        = !validator.isEmpty( datosFront.emailCliente );
+    const emailResturante     = !validator.isEmpty( datosFront.emailResturante );
     const mensajeDeResturante = !validator.isEmpty( datosFront.mensajeDeResturante );
-    const nombreRestaurante = !validator.isEmpty( datosFront.nombreRestaurante );
+    const nombreRestaurante   = !validator.isEmpty( datosFront.nombreRestaurante );
     
     
 
@@ -47,14 +47,15 @@ guardarMensajeClientes = (req, resp) => {
     const datosFront = req.body;
     console.log(datosFront)
 
-    const emailCliente = !validator.isEmpty( datosFront.emailCliente );
-    const emailResturante = !validator.isEmpty( datosFront.emailResturante );
-    const mensajeDecliente = !validator.isEmpty( datosFront.mensajeDecliente );
+    const emailCliente      = !validator.isEmpty( datosFront.emailCliente );
+    const emailResturante   = !validator.isEmpty( datosFront.emailResturante );
+    const mensajeDecliente  = !validator.isEmpty( datosFront.mensajeDecliente );
     const nombreRestaurante = !validator.isEmpty( datosFront.nombreRestaurante );
+    const nombreCliente     = !validator.isEmpty( datosFront.nombreCliente )
     
     
 
-    if( !emailCliente || !emailResturante  || !mensajeDecliente || !nombreRestaurante){
+    if( !emailCliente || !emailResturante  || !mensajeDecliente || !nombreRestaurante || !nombreCliente){
 
         return resp.status(400).json('uno de los campos viene vacio');
     }

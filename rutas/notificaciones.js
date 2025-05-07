@@ -9,7 +9,7 @@ const controladorNotificaciones = require('../controladores/notificaciones');
 //crear rutas
 usarRuta.post('/guardarNotificacion', controladorNotificaciones.guardarNotificaciones )
 
-usarRuta.get('/traerGestinados/:estado', controladorNotificaciones.traerGestionados)
+usarRuta.get('/traerGestinados', controladorNotificaciones.traerGestionados)
 
 usarRuta.delete('/borrarGestionado/:id', controladorNotificaciones.eliminarGestionado )
 

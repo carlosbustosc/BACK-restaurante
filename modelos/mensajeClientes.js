@@ -18,6 +18,10 @@ const modeloMensajes2 = Schema({
         type:String,
         require:true
     },
+   nombreCliente:{
+    type:String,
+    require:true
+   },
     fecha:{
         type:Date,
         default:Date.now

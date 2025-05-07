@@ -34,11 +34,9 @@ traerGestionados = (req, resp) => {
     //console.log(datosFront)
 
 
-    modeloNotificacion.find( { estado: datosFront.estado } )
+    modeloNotificacion.find()
         .then( (gestionadosDB) => {
                 
-        
-
             if( gestionadosDB.length == 0 ){
 
                 return resp.status(400).json({
@@ -48,13 +46,15 @@ traerGestionados = (req, resp) => {
 
             }
 
+            console.log(gestionadosDB)
+            
             return resp.status(200).json({
                 status:"correcto",
                 mensaje: "se encontraron registros para :" + datosFront.estado,
                 registros: gestionadosDB
             })
 
-            console.log(gestionadosDB)
+            
 
         })
         .catch( (error) =>{

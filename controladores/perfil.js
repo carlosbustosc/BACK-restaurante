@@ -103,7 +103,14 @@ const listarFotoPerfil = (req, resp) => {
     //---consuktar por correo y taer foto
     modeloFotoPerfil.findOne( { correoF: datosFront.correo  }) 
         .then( (respDB) => {
-            //console.log(respDB)
+   
+            
+            if(!respDB){
+
+                return resp.status(400).json({
+                    mensaje:"no se encontro la foto, o no hay foto"
+                })
+            }
 
             return resp.status(200).json({
                 mensaje:"Se encontro la foto",

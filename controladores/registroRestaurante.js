@@ -165,54 +165,93 @@ const loginRestaurante = (req, resp) => {
 }
 
 
-const listarRestaurantes = (req, resp) => {
+
+
+
+// filtrar por todos los restaurantes //
+const traerRestaurantes = (req, resp) => {
+
+
+
+    const categoriaComida       = req.query.Comida;
+    const categoriaDepartamento = req.query.Departamento
+    const categoriaCuidad       = req.query.ciudad;
+
+
+    let filtro = {}
+
+    //---------EL CAMPO QUE ESXISTA SE VA CONSULTANDO---//
+    if(categoriaComida){
+
+        filtro.categoria = categoriaComida  // filtro.categoria --- categoria es de la DB
+    }
+
+    if(categoriaDepartamento){
+
+        filtro.departamento = categoriaDepartamento
+    }
+
+    if(categoriaCuidad){
+        filtro.ciudad = categoriaCuidad
+    }
 
     
-    //listar restaurantes
-    modeloRestaurante.find()
-        .then( (restaurantesDB) => {
-           
-            if( !restaurantesDB ){   // si no hay restaurantes
-                
+    //console.log(filtro);
+
+    modeloRestaurante.find(filtro)
+        .then(respDB => {
+            if (respDB.length === 0) {
                 return resp.status(400).json({
-                    mensaje: "No hay resturantes regsitrados"
-                })
-
+                    error: "error",
+                    mensaje: "No hay restaurantes registrados con esa categoria"
+                });
             }
-            
-           
-
+    
             return resp.status(200).json({
-                mensaje: "se encontraron resturantes regsitrados",
-                restaurantesDB
-            })
-        })
+                status: "success",
+                mensaje: "Se encontraron registros a tu petición",
+                respDB
+            });
+        });
+    
+
 
 }
 
-
+// Un soilo restaurante
 const traerUnRestaurante = (req, resp) => {
 
+    let datosFront  = req.params.id;
+    console.log(datosFront);
 
-    const datosFront = req.params;
-    console.log(datosFront.id)
-    
-    //filtrar
-    modeloRestaurante.findOne( { _id:datosFront.id } )
-        .then( (respDB) => {
-            
-            if( !respDB ){
-                return resp.status(400).json({
-                    mensaje:"no existe el registro"
+    let identificador = !validator.isEmpty(datosFront);
+
+    if(identificador == ""){
+
+        return resp.status(400).json({
+            mensaje:"No hay ningun id para consultar"
+        })
+    }
+
+    modeloRestaurante.find({ _id:datosFront })
+            .then( respDB => {
+
+                if(!respDB){
+
+                    return resp.status(400).json({
+                        status:"error",
+                        mensaje:"No hay resgitros para esta busqueda"
+                    })
+                }
+
+                return resp.status(200).json({
+                    status:"sucess",
+                    mensaje:"Se encontro un registro para esta busqueda",
+                    respDB
                 })
-            }
 
-            return resp.status(200).json({
-                mensaje:"Existe el registro",
-                restaurante:respDB
             })
 
-        })
 }
 
 
@@ -221,7 +260,7 @@ module.exports = {
 
     registrarRestaurante,
     loginRestaurante,
-    listarRestaurantes,
+    traerRestaurantes,
     traerUnRestaurante
     
 }
