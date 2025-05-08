@@ -17,23 +17,37 @@ const ArchivoToken =  require('../tokenss/clientes');
 
 
 
-
-
 //creamos el primer controlador
 const registrarClientes = (req, resp) => {
 
     
     const datosFront = req.body
     //console.log(datosFront);
+
     //verificar que llegue la infromacion completa
-    const nombre        =  !validator.isEmpty( datosFront.nombre ); // no esta vacio
-    const email         =  !validator.isEmpty( datosFront.email );
-    const pass          =  !validator.isEmpty( datosFront.pass );
-    const celular       =  !validator.isEmpty( datosFront.celular );
-    const departamento  =  !validator.isEmpty( datosFront.departamento );
-    const ciudad        =  !validator.isEmpty( datosFront.ciudad );
-    const barrio        =  !validator.isEmpty( datosFront.barrio );
-    const direccion     =  !validator.isEmpty( datosFront.direccion );
+
+    function elCampoEsvalido( valor ){
+
+        return (
+            valor &&  // no es null ni undefined ni falsy
+            typeof valor === "string" && // es string
+            !validator.isEmpty( valor.trim() ) // no esta vacio
+
+        )
+    }
+
+    const nombre         =  elCampoEsvalido( datosFront.nombre );
+    const email          =  elCampoEsvalido( datosFront.email );
+    const pass           =  elCampoEsvalido( datosFront.pass );
+    const celular        =  elCampoEsvalido( datosFront.celular );
+    const departamento   =  elCampoEsvalido( datosFront.departamento );
+    const ciudad         =  elCampoEsvalido( datosFront.ciudad );
+    const barrio         =  elCampoEsvalido( datosFront.barrio );
+    const direccion      =  elCampoEsvalido( datosFront.direccion );
+
+
+
+
 
     if(!nombre || !email || !pass || !celular || !departamento || !ciudad || !barrio || !direccion ){
         
@@ -94,9 +108,21 @@ const registrarClientes = (req, resp) => {
 const loginClientes = (req, resp) => {
 
         datosFront = req.body;
+        console.log(datosFront)
 
-        const usuario  = !validator.isEmpty( datosFront.usuario ); // estab llenos
-        const password = !validator.isEmpty( datosFront.password );
+        //validacion de los campos
+        function validarCampos(campo){
+
+            return (
+                campo && //no es null ni undefined
+                typeof campo === "string" && // es un string
+                !validator.isEmpty( campo.trim() ) //no viene vacio
+            )
+        }
+
+        const usuario  =  validarCampos( datosFront.usuario )
+        const password =  validarCampos( datosFront.password )
+
         
         if( !usuario || !password ){
 
@@ -105,6 +131,7 @@ const loginClientes = (req, resp) => {
                 mensaje:"Falta uno de los registros"
             })
         }
+
 
         //verificar si el email no existe
         modeloRegistrarClientes.findOne( { email:datosFront.usuario } )
@@ -158,14 +185,26 @@ const ActualizarUsuario = (req, resp) => {
 
    const datosFront = req.body;
 
-   const nombre       =  !validator.isEmpty( datosFront.nombre ); // si viene llenos
-   const email        =  !validator.isEmpty( datosFront.email );
-   const pass         =  !validator.isEmpty( datosFront.pass );
-   const celular      =  !validator.isEmpty( datosFront.celular );
-   const departamento =  !validator.isEmpty( datosFront.departamento );
-   const ciudad       =  !validator.isEmpty( datosFront.ciudad );
-   const barrio       =  !validator.isEmpty( datosFront.barrio );
-   const direccion    =  !validator.isEmpty(  datosFront.direccion );
+   function validarCampo( campo ){
+
+    return(
+        campo &&
+        typeof campo === "string" &&
+        !validator.isEmpty( campo.trim() )
+    )
+
+   }
+    
+   const nombre       =  validarCampo( datosFront.nombre ) 
+   const email        =  validarCampo( datosFront.email ) 
+   const pass         =  validarCampo( datosFront.pass )  
+   const celular      =  validarCampo( datosFront.celular )  
+   const departamento =  validarCampo( datosFront.departamento )  
+   const ciudad       =  validarCampo( datosFront.ciudad )  
+   const barrio       =  validarCampo( datosFront.barrio )
+   const direccion    =  validarCampo( datosFront.direccion ) 
+
+
 
    if( !nombre ||  !email || !pass || !celular || !departamento || !ciudad || !barrio || !direccion){
 
@@ -216,9 +255,9 @@ const BorrarCliente = (req, resp) => {
 
     datoFront = req.query;
 
-    const emailFront = !validator.isEmpty( datoFront.email ); // si viene lleno
+    const emailFront = datoFront.email && typeof datoFront.email == "string" && !validator.isEmpty( datoFront.email ); //si todo esta bien true
     
-    if(  !emailFront ){
+    if(  !emailFront ){ // verifiqueme si es falso
         return resp.status(400).json({
 
             mensaje: "No hay un identificador para proceder a borrar"
