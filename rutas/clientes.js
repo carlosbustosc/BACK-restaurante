@@ -12,6 +12,8 @@ const controladorClientes = require('../controladores/clientes');
 usarRuta.post('/registrarClienteCurso', controladorClientes.registrarClientes);
 usarRuta.post('/loginClientesCurso', controladorClientes.loginClientes);
 usarRuta.put('/actualizarUsuario', controladorClientes.ActualizarUsuario );
+usarRuta.delete('/borrarCliente', controladorClientes.BorrarCliente );
+usarRuta.get('/mostrarTodosCliente', controladorClientes.mostrarTodosLosClientes);
 
 
 

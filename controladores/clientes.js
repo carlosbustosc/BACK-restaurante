@@ -177,39 +177,101 @@ const ActualizarUsuario = (req, resp) => {
    }
 
 
+   //cifrar password
+   bcrypt.hash( datosFront.pass, 8, (err, clavecifrada) => {
 
-    // si estan todos los campos completos se procede a actualizar
-   bcrypt.hash( datosFront.pass, 8, (err, claveCifrada) => {
+    datosFront.pass = clavecifrada
 
-    datosFront.pass = claveCifrada
 
-    //actualizamos
-    modeloRegistrarClientes.findOneAndUpdate( { email : datosFront.email }, datosFront )
-        .then( datosActualizados => {
+        //actualizamos los datos
+        modeloRegistrarClientes.findOneAndUpdate( { email : datosFront.email },  datosFront)
+        .then( respActualizacion => {
 
-            if( !datosActualizados ){// no existe el registro
+            if( !respActualizacion ){
 
                 return resp.status(400).json({
-                    status:"error",
-                    mensaje:"No hay un correo registrado para actualizar la informacion"
+                    mensaje:" No se encontro el registro por lo tanto no se pudo actualizar"
                 })
             }
 
+            return resp.status(200).json({
+                mensaje:"los datos se han actualizado correctamente"
+            })
+        })
 
-            //existe el dato
+
+   })
+
+
+
+  
+
+
+
+
+}
+
+
+const BorrarCliente = (req, resp) => {
+
+    datoFront = req.query;
+
+    const emailFront = !validator.isEmpty( datoFront.email ); // si viene lleno
+    
+    if(  !emailFront ){
+        return resp.status(400).json({
+
+            mensaje: "No hay un identificador para proceder a borrar"
+        })
+    }
+
+    //borrar registro
+    modeloRegistrarClientes.findOneAndDelete( { email: datoFront.email } )
+        .then( respBorrado =>  {
+
+            if( !respBorrado ){
+
+                return resp.status(400).json({
+                    status:"error",
+                    mensaje: "No se encontro el registro por lo tanto no se pudo borar"
+                })
+            }
+
+            //si lo encontro
             return resp.status(200).json({
                 status:"success",
-                mensaje:"Se ha actualizado correctamente",
-                actualizacion : datosActualizados
+                mensaje:"El registro se borro correctamente"
             })
 
         })
 
-   })
-
-    
 
 }
+
+
+const mostrarTodosLosClientes = (req, resp) => {
+
+    // entrar  y traer todo los registros
+    modeloRegistrarClientes.find()
+        .then( todosRegistros => {
+
+            if( !todosRegistros ){
+
+                return resp.status(400).json({
+                    status:"error",
+                    mensaje:"No hay registros"
+                })
+            }
+
+            return resp.status(200).json({
+                status:"sucess",
+                mensaje:"Se encontraron varios registros de clientes",
+                clientes:todosRegistros
+            })
+
+        })
+}
+
 
 
 
@@ -217,6 +279,8 @@ module.exports = {
 
     registrarClientes,
     loginClientes,
-    ActualizarUsuario
+    ActualizarUsuario,
+    BorrarCliente,
+    mostrarTodosLosClientes
 
 }
