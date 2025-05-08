@@ -1,22 +1,22 @@
-//usamos mongoose para la conexion
-const mongoose  = require('mongoose');
+// importamos mongose
+const mongoose = require('mongoose');
 
-//realizar conexion
-const conexion = async () => {
+//hacemos la conexion
+const conexion = async() => {
 
     try{
 
         await mongoose.connect('mongodb://localhost:27017/Estudiar');
-        console.log("Se ha conectado correctamente a la base de datos");
+        console.log("se ha conectado correctemente a la base de datos");
 
     }catch{
-
-        console.log("no se ha podido conectar correctamente a la base de datos");
+        
+        console.log("Error: no se pudo conecar a la base de datos");
     }
-
 }
 
-module.exports = {
 
-    conexion
+//exportamos la conexion
+module.exports = { 
+    conexion 
 }
