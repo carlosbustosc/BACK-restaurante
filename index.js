@@ -14,7 +14,10 @@ const bodyParser = require('body-parser');
 
 
 //----configuracion de datos de entrada
-usarExpress.use( cors() );
+usarExpress.use( cors({
+     origin: 'http://localhost:4200',
+    credentials: true
+}));
 
 //----tranformar body a objeto JSON
 usarExpress.use( bodyParser.json( { limit: '12mb' } ) );
