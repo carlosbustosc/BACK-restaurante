@@ -13,17 +13,22 @@ const usarExpress = express();
 const bodyParser = require('body-parser');
 
 
-//----configuracion de datos de entrada
-usarExpress.use( cors({
-     origin: 'http://localhost:4200',
-    credentials: true
-}));
 
 //----tranformar body a objeto JSON
 usarExpress.use( bodyParser.json( { limit: '12mb' } ) );
 
 //-----configurar URL encoded---
 usarExpress.use( express.urlencoded( { extended:true } ) )
+
+
+//----configuracion de datos de entrada
+usarExpress.use( cors({
+     origin: 'http://localhost:4200', // origen del frontend
+     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+     allowedHeaders: ['Content-Type', 'Authorization'],
+      credentials: true
+}));
+
 
 
 
